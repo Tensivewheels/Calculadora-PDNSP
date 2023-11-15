@@ -1,0 +1,105 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class CalculadoraPDNSPInterface {
+
+    private JFrame frame;
+    private JTextField textFieldLadoFake;
+    private JTextField textFieldLado2;
+    private JTextField textFieldAngulo;
+    private JTextField textFieldResultado;
+    private VolumeDaMicrobacia calculadora;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                CalculadoraPDNSPInterface window = new CalculadoraPDNSPInterface();
+                window.frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public CalculadoraPDNSPInterface() {
+        frame = new JFrame();
+        frame.setBounds(100, 100, 500, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setBackground(new Color(192, 192, 192)); // cinza claro fosco
+
+        JLabel lblLogo = new JLabel(new ImageIcon("C:\\ARTHUR\\DIO\\JAVA\\Variaveis\\Small Project\\TRABALHO\\estacio.png"));
+        lblLogo.setBounds(300, 300, 100, 30); // ajuste conforme necessário
+        frame.getContentPane().add(lblLogo);
+
+        JLabel lblTitulo = new JLabel("CALCULADORA PDNSP");
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 16));
+        lblTitulo.setBounds(120, 10, 200, 30);
+        frame.getContentPane().add(lblTitulo);
+
+        JLabel lblLadoFake = new JLabel("Lado Fake:");
+        lblLadoFake.setBounds(30, 70, 80, 20);
+        frame.getContentPane().add(lblLadoFake);
+
+        textFieldLadoFake = new JTextField();
+        textFieldLadoFake.setBounds(120, 70, 80, 20);
+        frame.getContentPane().add(textFieldLadoFake);
+        textFieldLadoFake.setColumns(10);
+
+        JLabel lblLado2 = new JLabel("Lado 2:");
+        lblLado2.setBounds(30, 100, 80, 20);
+        frame.getContentPane().add(lblLado2);
+
+        textFieldLado2 = new JTextField();
+        textFieldLado2.setBounds(120, 100, 80, 20);
+        frame.getContentPane().add(textFieldLado2);
+        textFieldLado2.setColumns(10);
+
+        JLabel lblAngulo = new JLabel("Ângulo:");
+        lblAngulo.setBounds(30, 130, 80, 20);
+        frame.getContentPane().add(lblAngulo);
+
+        textFieldAngulo = new JTextField();
+        textFieldAngulo.setBounds(120, 130, 80, 20);
+        frame.getContentPane().add(textFieldAngulo);
+        textFieldAngulo.setColumns(10);
+
+        JButton btnCalcular = new JButton("Calcular");
+        btnCalcular.setBounds(30, 160, 150, 30);
+        frame.getContentPane().add(btnCalcular);
+
+        JLabel lblResultado = new JLabel("Resultado:");
+        lblResultado.setBounds(30, 200, 80, 20);
+        frame.getContentPane().add(lblResultado);
+
+        textFieldResultado = new JTextField();
+        textFieldResultado.setBounds(120, 200, 150, 20);
+        frame.getContentPane().add(textFieldResultado);
+        textFieldResultado.setColumns(10);
+
+        calculadora = new VolumeDaMicrobacia();
+
+        btnCalcular.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                calcularVolume();
+            }
+        });
+    }
+
+    private void calcularVolume() {
+        try {
+            double ladoFake = Double.parseDouble(textFieldLadoFake.getText());
+            double lado2 = Double.parseDouble(textFieldLado2.getText());
+            int angulo = Integer.parseInt(textFieldAngulo.getText());
+
+            calculadora.calculoDoVolumeDaMicrobacia(ladoFake, lado2, angulo);
+
+            double resultado = calculadora.precipitacaoTotal;
+            textFieldResultado.setText(Double.toString(resultado));
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(frame, "Por favor, insira números válidos.", "Erro de Entrada",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}
